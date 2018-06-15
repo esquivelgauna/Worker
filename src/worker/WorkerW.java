@@ -37,13 +37,14 @@ public class WorkerW implements Runnable {
             try {
                 // ServerSocket me da el Socket
                 Socket = Server.accept();
-                MiCon.cancel();
+                MiCon.Pause();
                 Datos = new ObjectInputStream(Socket.getInputStream());
                 HashMap Lista = (HashMap) Datos.readObject();
                 System.out.println(Lista);
                 //int numeros = (int) Integer.valueOf((String) Lista.get("Fiboo"));
                 
                 ST("Trabajando", Color.orange, Color.black);
+                
                 String cip = (String) Lista.get("IP");
                 int cp = Integer.valueOf((String) Lista.get("PUERTO"));
                 int n = (int) Integer.valueOf((String) Lista.get("Fiboo"));
@@ -53,7 +54,7 @@ public class WorkerW implements Runnable {
                 //Enviar los datos
                 new EnviarW(cip, cp, Lista).start();
 
-                MiCon.run();
+                MiCon.Play();
                 // instancio un Thread
                 //(new Cliente(s, this.view )).start();
             } catch (Exception ex) {

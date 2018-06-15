@@ -18,45 +18,51 @@ public class ConexionW extends TimerTask {
     int Puerto;
     int MiPuerto;
     protected PanelW view;
+    protected Boolean conexion = true;
+    Boolean Con = false;
 
-    ConexionW(String IP, int Puerto, PanelW view , int mp) {
+    ConexionW(String IP, int Puerto, PanelW view, int mp) {
         this.view = view;
         this.IP = IP;
         this.Puerto = Puerto;
-        MiPuerto =  mp;
+        MiPuerto = mp;
     }
 
     @Override
     public void run() {
-        try {
-            s = new Socket(IP, Puerto);
-            DDatos = new ObjectOutputStream(s.getOutputStream());
-            Datos = new InfoW( MiPuerto );
-            DDatos.writeObject(Datos.PC());
-            Texto("Status Activo", Color.green, Color.black);
-            System.out.println("Se enviaron datos");
-            
-        } catch (IOException | SigarException ex) {
-            Texto("No se pudo conectar al servidor ", Color.red, Color.black);
-            System.out.println("No se conecto");
-            
-        } finally {
+        if (conexion) {
+            Con = true;
             try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(ConexionW.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if (s != null) {
-                try {
-                    s.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(ControlW.class.getName()).log(Level.SEVERE, null, ex);
+                s = new Socket(IP, Puerto);
+                DDatos = new ObjectOutputStream(s.getOutputStream());
+                Datos = new InfoW(MiPuerto);
+                DDatos.writeObject(Datos.PC());
+                Texto("Status Activo", Color.green, Color.black);
+                System.out.println("Se enviaron datos");
+                Con = true;
+            } catch (IOException | SigarException ex) {
+                
+                System.out.println("No se conecto");
+                Con = false;
+            } finally {
+                if (s != null) {
+                    try {
+                        s.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(ControlW.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
+                if (Con) {
+                    Texto("Esperando peticion", Color.orange, Color.black);
+                }else{
+                    Texto("No se pudo conectar al servidor ", Color.red, Color.black);
+                }
+                System.out.println("Conexion cerrada");
+                System.out.println("Conectando....");
+                
             }
-            System.out.println("Conexion cerrada");
-            System.out.println("Conectando....");
-            Texto("Esperando peticion", Color.orange, Color.black);
         }
+
     }
 
     public void Texto(String Msj, Color Fore, Color Back) {
@@ -65,4 +71,11 @@ public class ConexionW extends TimerTask {
         this.view.SMSJ.setBackground(Back);
     }
 
+    public void Pause() {
+        conexion = false;
+    }
+
+    public void Play() {
+        conexion = true;
+    }
 }

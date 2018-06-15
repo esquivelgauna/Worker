@@ -65,6 +65,7 @@ public class ControlW implements ActionListener {
 
             case "Apagar":
                 try {
+                    MiConexion.Pause();
                     timer.purge();
                     timer.cancel();
                     
