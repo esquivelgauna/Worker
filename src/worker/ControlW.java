@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.Timer;
 import javax.swing.JOptionPane;
 
-public class Control implements ActionListener {
+public class ControlW implements ActionListener {
 
     String IP;
     Boolean Conectado = false;
@@ -16,14 +16,14 @@ public class Control implements ActionListener {
     int Puerto;
     int SPuerto;
 
-    Info Datos;
+    InfoW Datos;
     Timer timer;
-    Conexion MiConexion;
-    Worker MiWorker;
+    ConexionW MiConexion;
+    WorkerW MiWorker;
     Thread MiHilo;
-    protected Panel view;
+    protected PanelW view;
 
-    Control(Panel view) throws IOException {
+    ControlW(PanelW view) throws IOException {
         this.view = view;
     }
 
@@ -48,13 +48,14 @@ public class Control implements ActionListener {
                     Puerto = Integer.valueOf(this.view.Puerto.getText());
 
                     //Conexion
-                    MiConexion = new Conexion(IP, Puerto, this.view);
+                    MiConexion = new ConexionW(IP, Puerto, this.view , SPuerto );
                     timer = new Timer();
                     timer.scheduleAtFixedRate(MiConexion, 0, 1000);
                     //Worker
-                    MiWorker = new Worker(SPuerto , MiConexion);
+                    MiWorker = new WorkerW(SPuerto , MiConexion, this.view);
                     MiHilo = new Thread(MiWorker);
                     MiHilo.start();
+                    
                     Servidor = true;
                     ST("Servidor Iniciado", Color.green, Color.black);
                 } else {
@@ -66,6 +67,7 @@ public class Control implements ActionListener {
                 try {
                     timer.purge();
                     timer.cancel();
+                    
                     MiWorker.close();
                 } catch (IOException ex) {
                     //Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex);

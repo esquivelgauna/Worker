@@ -13,7 +13,12 @@ import org.hyperic.sigar.OperatingSystem;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 
-public class Info {
+public class InfoW {
+    
+    int puerto;
+    InfoW( int p ){
+        puerto = p;
+    }
     
     public HashMap<String,String>  PC() throws IOException, SigarException {
         HashMap<String,String> Datos = new HashMap<>();
@@ -48,6 +53,9 @@ public class Info {
         Datos.put("RAMU",String.valueOf((memoria.getUsed()) / 1024 / 1000));
         Datos.put("IP",(IPA));
         Datos.put("MAC",Mac());
+        Datos.put("Tipo","Worker");
+        Datos.put("PUERTO", String.valueOf(puerto) );
+        Datos.put("Estatus","Libre");
         //System.out.println(Datos);
         return Datos;
     }

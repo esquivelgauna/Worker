@@ -9,19 +9,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hyperic.sigar.SigarException;
 
-public class Conexion extends TimerTask {
+public class ConexionW extends TimerTask {
 
     ObjectOutputStream DDatos;
-    Info Datos;
+    InfoW Datos;
     Socket s = null;
     String IP;
     int Puerto;
-    protected Panel view;
+    int MiPuerto;
+    protected PanelW view;
 
-    Conexion(String IP, int Puerto, Panel view) {
+    ConexionW(String IP, int Puerto, PanelW view , int mp) {
         this.view = view;
         this.IP = IP;
         this.Puerto = Puerto;
+        MiPuerto =  mp;
     }
 
     @Override
@@ -29,7 +31,7 @@ public class Conexion extends TimerTask {
         try {
             s = new Socket(IP, Puerto);
             DDatos = new ObjectOutputStream(s.getOutputStream());
-            Datos = new Info();
+            Datos = new InfoW( MiPuerto );
             DDatos.writeObject(Datos.PC());
             Texto("Status Activo", Color.green, Color.black);
             System.out.println("Se enviaron datos");
@@ -42,13 +44,13 @@ public class Conexion extends TimerTask {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
-                Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ConexionW.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (s != null) {
                 try {
                     s.close();
                 } catch (IOException ex) {
-                    Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ControlW.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             System.out.println("Conexion cerrada");

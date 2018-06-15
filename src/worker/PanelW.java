@@ -3,7 +3,7 @@ package worker;
 import javax.swing.*;
 import java.awt.*;
 
-public class Panel extends JFrame {
+public class PanelW extends JFrame {
     protected JLabel Conexion;
     protected JLabel CLIP;
     protected JLabel CLPuerto;
@@ -28,7 +28,7 @@ public class Panel extends JFrame {
     
     GridBagConstraints cons = new GridBagConstraints();
 
-    public Panel() {
+    public PanelW() {
         setBounds(100, 100, 400, 400);//Definir las dimensiones de la ventana
         setTitle("Trabajador");    //Barra de título
         setDefaultCloseOperation(EXIT_ON_CLOSE);    //Acción al pulsar salir
@@ -112,7 +112,7 @@ public class Panel extends JFrame {
         getContentPane().add(MSJ, cons);*/
         
         
-        Servidor = new JLabel("Servidor:");
+        Servidor = new JLabel("Mi Puerto:");
         Servidor.setForeground(Color.blue);
         Servidor.setBackground(Color.white);
         Servidor.setOpaque(true);
@@ -181,7 +181,7 @@ public class Panel extends JFrame {
         setVisible(true);
     }
     
-    public void conectaControlador(  Control c  ){
+    public void conectaControlador(  ControlW c  ){
  
         /*BtnDesconectar.addActionListener(c);
         BtnDesconectar.setActionCommand("Desconectar");
