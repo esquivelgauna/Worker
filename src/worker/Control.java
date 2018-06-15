@@ -13,11 +13,13 @@ public class Control implements ActionListener {
     String IP;
     Boolean Conectado = false;
     Boolean Servidor = false;
-    int Puetro;
+    int Puerto;
+    int SPuerto;
+
     Info Datos;
     Timer timer;
     Conexion MiConexion;
-    Servidor MiServidor;
+    Worker MiWorker;
     Thread MiHilo;
     protected Panel view;
 
@@ -37,63 +39,34 @@ public class Control implements ActionListener {
         String comando = arg0.getActionCommand();
 
         switch (comando) {
-            case "Conectar":
-                if (Conectado == false) {
-                    Texto("Conectando..", Color.green, Color.black);
-
-                    String IP = this.view.IP.getText();
-                    int Puerto = Integer.valueOf(this.view.Puerto.getText());
-                    System.out.println("Conectar a la IP:" + IP + " Puerto:" + Puerto);
-                    Boolean Con;
-                    try {
-                        Con = Test(IP, Puerto);
-                    } catch (IOException ex) {
-                        Con = false;
-                    }
-                    if (Con) {
-                        Texto("Conexion exitosa..", Color.green, Color.black);
-                        MiConexion = new Conexion(IP, Puerto, this.view);
-                        timer = new Timer();
-                        timer.scheduleAtFixedRate(MiConexion, 0, 1000);
-                        Conectado = true;
-                    } else {
-                        Texto("Error al conectar..", Color.red, Color.black);
-                    }
-                } else {
-                    System.out.println("Duplicado evitado");
-                    JOptionPane.showMessageDialog(null, "Ya estas conectado");
-                }
-                break;
-
-            case "Desconectar":
-                timer.purge();
-                timer.cancel();
-                System.out.println("Desconectar");
-                Texto("Desconectado", Color.blue, Color.gray);
-                Conectado = false;
-                break;
-
             case "Encender":
                 //System.out.println("Comando Encender");
                 if (Servidor == false) {
-                    int SPuerto = Integer.valueOf(this.view.STPuerto.getText());
+                    SPuerto = Integer.valueOf(this.view.STPuerto.getText());
 
-                    MiServidor = new Servidor(SPuerto);
-                    MiHilo = new Thread(MiServidor);
+                    IP = this.view.IP.getText();
+                    Puerto = Integer.valueOf(this.view.Puerto.getText());
+
+                    //Conexion
+                    MiConexion = new Conexion(IP, Puerto, this.view);
+                    timer = new Timer();
+                    timer.scheduleAtFixedRate(MiConexion, 0, 1000);
+                    //Worker
+                    MiWorker = new Worker(SPuerto , MiConexion);
+                    MiHilo = new Thread(MiWorker);
                     MiHilo.start();
                     Servidor = true;
                     ST("Servidor Iniciado", Color.green, Color.black);
                 } else {
                     JOptionPane.showMessageDialog(null, "Ya esta inicializado el servidor");
                 }
-
                 break;
 
             case "Apagar":
-                //System.out.println("Comando Apagar");
-
                 try {
-                    MiServidor.close();
+                    timer.purge();
+                    timer.cancel();
+                    MiWorker.close();
                 } catch (IOException ex) {
                     //Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex);
                 }

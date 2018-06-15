@@ -30,15 +30,16 @@ public class Panel extends JFrame {
 
     public Panel() {
         setBounds(100, 100, 400, 400);//Definir las dimensiones de la ventana
-        setTitle("Conexion");    //Barra de título
+        setTitle("Trabajador");    //Barra de título
         setDefaultCloseOperation(EXIT_ON_CLOSE);    //Acción al pulsar salir
         getContentPane().setLayout(new GridBagLayout());
         setForeground(Color.orange);
-        Conexion = new JLabel("Conexion:");
+        
+        Conexion = new JLabel("Trabajar para:");
         Conexion.setForeground(Color.green);
         Conexion.setBackground(Color.black);
         Conexion.setOpaque(true);
-        Conexion.setHorizontalAlignment(SwingConstants.LEFT);
+        Conexion.setHorizontalAlignment(SwingConstants.CENTER);
         Conexion.setVerticalAlignment(SwingConstants.CENTER);
         cons.gridx = 0;
         cons.gridy = 0;
@@ -81,7 +82,7 @@ public class Panel extends JFrame {
         getContentPane().add(Puerto, cons);
         
         
-        
+        /*
         BtnConectar = new JButton("Conectar");
         cons.gridx = 0;
         cons.gridy = 4;
@@ -108,14 +109,14 @@ public class Panel extends JFrame {
         cons.gridy = 5;
         cons.gridwidth = 2;
         cons.gridheight = 1;
-        getContentPane().add(MSJ, cons);
+        getContentPane().add(MSJ, cons);*/
         
         
         Servidor = new JLabel("Servidor:");
         Servidor.setForeground(Color.blue);
         Servidor.setBackground(Color.white);
         Servidor.setOpaque(true);
-        Servidor.setHorizontalAlignment(SwingConstants.LEFT);
+        Servidor.setHorizontalAlignment(SwingConstants.CENTER);
         Servidor.setVerticalAlignment(SwingConstants.CENTER);
         cons.gridx = 0;
         cons.gridy = 6;
@@ -130,7 +131,7 @@ public class Panel extends JFrame {
         cons.gridheight = 1;
         getContentPane().add(SLIP, cons);*/
         
-        SLPuerto = new JLabel("Puerto:");
+        SLPuerto = new JLabel("Puerto de escucha:");
         cons.gridx = 0;
         cons.gridy = 8;
         cons.gridwidth = 1;
@@ -165,7 +166,7 @@ public class Panel extends JFrame {
         cons.gridheight = 1;
         getContentPane().add(SBtnApagar, cons);
         
-        SMSJ = new JLabel("En espera....");
+        SMSJ = new JLabel("En espera");
         SMSJ.setForeground(Color.black);
         SMSJ.setBackground(Color.white);
         SMSJ.setOpaque(true);
@@ -182,11 +183,11 @@ public class Panel extends JFrame {
     
     public void conectaControlador(  Control c  ){
  
-        BtnDesconectar.addActionListener(c);
+        /*BtnDesconectar.addActionListener(c);
         BtnDesconectar.setActionCommand("Desconectar");
  
         BtnConectar.addActionListener(c);
-        BtnConectar.setActionCommand("Conectar");
+        BtnConectar.setActionCommand("Conectar");*/
         
         SBtnEncender.addActionListener(c);
         SBtnEncender.setActionCommand("Encender");

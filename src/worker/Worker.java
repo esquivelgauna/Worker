@@ -4,15 +4,17 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Servidor implements Runnable {
+public class Worker implements Runnable {
 
     int Puerto;
     Boolean Activo = true;
     ServerSocket Server;
     Socket sock = null;
+    Conexion MiCon;
 
-    Servidor(int Puerto) {
+    Worker(int Puerto , Conexion Con) {
         this.Puerto = Puerto;
+        MiCon = Con;
         try {
             Server = new ServerSocket(this.Puerto);
         } catch (IOException ex) {

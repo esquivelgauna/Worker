@@ -29,10 +29,9 @@ public class Conexion extends TimerTask {
         try {
             s = new Socket(IP, Puerto);
             DDatos = new ObjectOutputStream(s.getOutputStream());
-            //System.out.println(Datos);
             Datos = new Info();
             DDatos.writeObject(Datos.PC());
-            Texto("Se enviaron datos", Color.green, Color.black);
+            Texto("Status Activo", Color.green, Color.black);
             System.out.println("Se enviaron datos");
             
         } catch (IOException | SigarException ex) {
@@ -54,14 +53,14 @@ public class Conexion extends TimerTask {
             }
             System.out.println("Conexion cerrada");
             System.out.println("Conectando....");
-            Texto("Conectando......", Color.orange, Color.black);
+            Texto("Esperando peticion", Color.orange, Color.black);
         }
     }
 
     public void Texto(String Msj, Color Fore, Color Back) {
-        this.view.MSJ.setText(Msj);
-        this.view.MSJ.setForeground(Fore);
-        this.view.MSJ.setBackground(Back);
+        this.view.SMSJ.setText(Msj);
+        this.view.SMSJ.setForeground(Fore);
+        this.view.SMSJ.setBackground(Back);
     }
 
 }
