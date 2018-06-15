@@ -41,12 +41,19 @@ public class WorkerW implements Runnable {
                 Datos = new ObjectInputStream(Socket.getInputStream());
                 HashMap Lista = (HashMap) Datos.readObject();
                 System.out.println(Lista);
-                int numeros = (int) Integer.valueOf((String) Lista.get("Fiboo"));
+                //int numeros = (int) Integer.valueOf((String) Lista.get("Fiboo"));
+                
                 ST("Trabajando", Color.orange, Color.black);
+                String cip = (String) Lista.get("IP");
+                int cp = Integer.valueOf((String) Lista.get("PUERTO"));
+                int n = (int) Integer.valueOf((String) Lista.get("Fiboo"));
+                Lista.put("Res", Calcular(n));
+                Lista.put("Desde", "Trabajador");
+                
+                //Enviar los datos
+                new EnviarW(cip, cp, Lista).start();
 
-                Calcular(numeros);
                 MiCon.run();
-
                 // instancio un Thread
                 //(new Cliente(s, this.view )).start();
             } catch (Exception ex) {
@@ -62,12 +69,15 @@ public class WorkerW implements Runnable {
         System.out.println("Servidor Apagado");
     }
 
-    public void Calcular(int numeros) {
-        int ini = 0;
+    public BigInteger Calcular(int numeros) {
+        BigInteger ini = new BigInteger("0");
         for (int i = 0; i < numeros; i++) {
-            ini = ini + i;
-            System.out.println("numero " + ini);
+            //ini.add( new BigInteger( String.valueOf(i) ));
+            ini = ini.add(BigInteger.valueOf(i));
+            //System.out.println("numero " + ini);
         }
+        System.out.println("Algoritmo terminado");
+        return ini;
     }
 
     public void ST(String Msj, Color Fore, Color Back) {
